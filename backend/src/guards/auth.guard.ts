@@ -27,13 +27,11 @@ export class AuthGuard implements CanActivate {
 
     const user = await this.usersService.findByUsername(username);
 
-    console.log('User status:', user);
 
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
 
-    console.log('User status:', user);
 
     if (user.status === UserStatus.DELETED) {
       throw new UnauthorizedException('User is deleted');
