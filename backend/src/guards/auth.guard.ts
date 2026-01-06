@@ -7,6 +7,7 @@ import {
 import { UsersService } from '../users/users.service';
 import { Request } from 'express';
 import { User } from '../users/users.entity';
+import { UserStatus } from 'src/users/user-status.enum';
 
 interface RequestWithUser extends Request {
   user?: User;
@@ -26,8 +27,16 @@ export class AuthGuard implements CanActivate {
 
     const user = await this.usersService.findByUsername(username);
 
+    console.log('User status:', user);
+
     if (!user) {
       throw new UnauthorizedException('User not found');
+    }
+
+    console.log('User status:', user);
+
+    if (user.status === UserStatus.DELETED) {
+      throw new UnauthorizedException('User is deleted');
     }
 
     request.user = user;

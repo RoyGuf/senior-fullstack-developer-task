@@ -15,7 +15,7 @@ export class AppController {
     return {
       id: request.user.id,
       username: request.user.username,
-      role: request.user.role,
+      role: request.user.roles,
       status: request.user.status,
     };
   }
